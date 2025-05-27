@@ -1,0 +1,17 @@
+{
+  // Usa Prettier como formateador por defecto
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Formatea al guardar
+  "editor.formatOnSave": true,
+
+  // Aplica también corrección de ESLint al guardar
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+
+  // (Opcional) Si quieres formatear solo archivos específicos
+  // "[javascript]": { "editor.formatOnSave": true },
+  // "[typescript]": { "editor.formatOnSave": true },
+  // "[typescriptreact]": { "editor.formatOnSave": true }
+}
