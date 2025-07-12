@@ -4,8 +4,11 @@ import { Calendar } from 'primereact/calendar';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { Button } from 'primereact/button';
+import { useTranslation } from 'react-i18next';
 
-export function TastingForm() {
+export const TastingForm = () => {
+  const { t } = useTranslation();
+
   const [name, setName] = useState('');
   const [roaster, setRoaster] = useState('');
   const [location, setLocation] = useState('');
@@ -21,6 +24,7 @@ export function TastingForm() {
   return (
     <form
       onSubmit={(e) => {
+        console.log('on submit');
         e.preventDefault();
         handleSave();
       }}
@@ -31,7 +35,7 @@ export function TastingForm() {
           onChange={(e) => setDate(e.value ?? null)} // si e.value es undefined, pasamos null
           showIcon
         />
-        <label>Fecha</label>
+        <label>{t('tastingForm.fecha')}</label>
       </span>
 
       <span className="p-float-label">
@@ -84,4 +88,4 @@ export function TastingForm() {
       <Button label="Guardar" icon="pi pi-save" />
     </form>
   );
-}
+};

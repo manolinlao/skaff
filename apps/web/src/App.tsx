@@ -1,7 +1,13 @@
-import NewTastingPage from './pages/NewTestingPage';
+import { BackEndTest } from './components/BackendTest';
+import { NewTastingPage } from './pages/NewTestingPage';
 
 function App() {
-  return <NewTastingPage />;
+  return (
+    <>
+      <BackEndTest />
+      <NewTastingPage />
+    </>
+  );
 }
 
 export default App;
