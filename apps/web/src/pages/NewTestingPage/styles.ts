@@ -1,17 +1,5 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-export const formContainer = css`
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
-export const formStyle = css`
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+export const Container = styled.div`
+  padding: 2px;
 `;

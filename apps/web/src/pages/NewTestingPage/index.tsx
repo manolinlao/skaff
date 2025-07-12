@@ -1,16 +1,11 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { TastingForm } from './components/TastingForm';
-
-const pageStyle = css`
-  padding: 2rem;
-`;
+import { Container } from './styles';
 
 export default function NewTastingPage() {
   return (
-    <div css={pageStyle}>
+    <Container>
       <h2>Nueva Cata</h2>
       <TastingForm />
-    </div>
+    </Container>
   );
 }

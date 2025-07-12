@@ -1,19 +1,16 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Slider } from 'primereact/slider';
+import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { Button } from 'primereact/button';
-import { formStyle } from '../../styles';
 
 export function TastingForm() {
   const [name, setName] = useState('');
   const [roaster, setRoaster] = useState('');
   const [location, setLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [score, setScore] = useState(5);
+  const [score, setScore] = useState<number>(5);
   const [date, setDate] = useState<Date | null>(new Date());
 
   const handleSave = () => {
@@ -23,14 +20,17 @@ export function TastingForm() {
 
   return (
     <form
-      css={formStyle}
       onSubmit={(e) => {
         e.preventDefault();
         handleSave();
       }}
     >
       <span className="p-float-label">
-        <Calendar value={date} onChange={(e) => setDate(e.value)} showIcon />
+        <Calendar
+          value={date}
+          onChange={(e) => setDate(e.value ?? null)} // si e.value es undefined, pasamos null
+          showIcon
+        />
         <label>Fecha</label>
       </span>
 
@@ -66,11 +66,18 @@ export function TastingForm() {
 
       <div>
         <label>Puntuación: {score}</label>
+      </div>
+      <div className="card flex justify-content-center">
         <Slider
           value={score}
-          onChange={(e) => setScore(e.value ?? 5)}
+          onChange={(e: SliderChangeEvent) => {
+            if (typeof e.value === 'number') {
+              setScore(e.value);
+            }
+          }}
           min={1}
           max={10}
+          className="w-14rem"
         />
       </div>
 
