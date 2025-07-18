@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { TastingEntry } from '../../entities/tasting/model';
 import { getAllTastingEntries } from '../../entities/tasting/db';
-import { format } from 'date-fns';
+import { useLocalizedDateFormat } from '../../hooks/useLocalizedDateFormat';
 
 export const TastingList = () => {
   const [entries, setEntries] = useState<TastingEntry[]>([]);
+  const { formatDate } = useLocalizedDateFormat();
 
   useEffect(() => {
     const fetchEntries = async () => {
@@ -31,7 +32,7 @@ export const TastingList = () => {
             >
               <p>Origen: {entry.origin}</p>
               <p>Método: {entry.method}</p>
-              <p>Fecha: {format(new Date(entry.date), 'dd/MM/yyyy')}</p>
+              <p>Fecha: {formatDate(entry.date)}</p>
               <p>Notas: {entry.notes}</p>
               <p>Puntuación: {entry.score}</p>
               {/* Podrías añadir fotos si las muestras como URL o miniaturas más adelante */}

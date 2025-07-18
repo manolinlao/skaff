@@ -8,7 +8,10 @@
     "jsx": "react-jsx",
     "strict": true,
     "allowJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
   "include": ["apps/**/*", "packages/**/*"]
 }

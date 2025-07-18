@@ -18,6 +18,7 @@ import {
   SubmitButtonWrapper,
 } from './styles';
 import { TextBlock } from '../../../../components/TextBlock';
+import i18n from '../../../../i18n/i18n';
 
 export const TastingForm = () => {
   const { t } = useTranslation();
@@ -127,7 +128,7 @@ export const TastingForm = () => {
             value={date}
             onChange={(e) => setDate(e.value as Date)}
             showIcon
-            dateFormat="dd/mm/yy"
+            dateFormat={i18n.language === 'es' ? 'dd/mm/yy' : 'mm/dd/yy'}
           />
           <label htmlFor="tasting-date">{t('tastingForm.date')}</label>
         </FloatLabel>
