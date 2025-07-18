@@ -1,6 +1,13 @@
 {
   "tastingForm": {
-    "fecha": "Date",
-    "notas": "Notes"
+    "title": "New Tasting",
+    "date": "Date",
+    "name": "Coffee Name",
+    "roaster": "Roaster",
+    "origin": "Origin",
+    "method": "Brew Method",
+    "score": "Overall Score",
+    "notes": "Notes",
+    "photo": "Photo"
   }
 }
