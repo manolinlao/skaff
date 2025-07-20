@@ -1,5 +1,5 @@
 import { openDB } from 'idb';
-import type { TastingEntry } from './model'; // ajusta el path según tu modelo
+import { TastingEntry } from './types';
 
 const DB_NAME = 'coffeeTastingDB';
 const STORE_NAME = 'tastingEntries';

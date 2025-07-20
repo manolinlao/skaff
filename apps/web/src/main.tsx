@@ -7,7 +7,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './index.css';
-import './i18n/i18n';
+import './i18n/i18n'; //inits i18ns
 import { AppRouter } from './router';
 
 createRoot(document.getElementById('root')!).render(

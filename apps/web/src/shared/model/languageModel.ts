@@ -1,6 +1,6 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import { persist } from 'effector-storage/local';
-import i18n from '../i18n/i18n';
+import i18n from '../../i18n/i18n';
 
 export const changeLanguage = createEvent<string>();
 
@@ -25,10 +25,10 @@ persist({
   key: 'language',
 });
 
-export const globalStores = {
+export const langStores = {
   $language,
 };
 
-export const globalEvents = {
+export const langEvents = {
   changeLanguage,
 };

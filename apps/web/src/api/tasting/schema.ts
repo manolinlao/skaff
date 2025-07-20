@@ -10,17 +10,3 @@ export const TastingEntrySchema = z.object({
   notes: z.string().optional(),
   photos: z.array(z.instanceof(File)).optional(),
 });
-
-//export type TastingEntry = z.infer<typeof TastingEntrySchema>;
-
-export interface TastingEntry {
-  id?: number;
-  date: Date;
-  coffeeName?: string;
-  origin?: string;
-  roaster?: string;
-  method: string;
-  score?: number | null;
-  notes?: string;
-  photos?: File[];
-}

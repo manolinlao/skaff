@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useUnit } from 'effector-react';
 import { Card } from 'primereact/card';
-import { TastingEntry } from '../../entities/tasting/model';
-import { getAllTastingEntries } from '../../entities/tasting/db';
 import { useLocalizedDateFormat } from '../../hooks/useLocalizedDateFormat';
+import { tastingEvents, tastingStores } from '../../api/tasting/model';
 
 export const TastingList = () => {
-  const [entries, setEntries] = useState<TastingEntry[]>([]);
+  const entries = useUnit(tastingStores.$tastingList);
+  const getTastings = useUnit(tastingEvents.getTastings);
   const { formatDate } = useLocalizedDateFormat();
 
   useEffect(() => {
-    const fetchEntries = async () => {
-      const data = await getAllTastingEntries();
-      setEntries(data);
-    };
-
-    fetchEntries();
-  }, []);
+    getTastings();
+  }, [getTastings]);
 
   return (
     <div style={{ padding: '2rem' }}>

@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import { useUnit } from 'effector-react';
 import { useTranslation } from 'react-i18next';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { FloatLabel } from 'primereact/floatlabel';
-import {
-  TastingEntry,
-  TastingEntrySchema,
-} from '../../../../entities/tasting/model';
-import { addTastingEntry } from '../../../../entities/tasting/db';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import i18n from '../../../../i18n/i18n';
+import { TastingEntry } from '../../../../api/tasting/types';
+import { TastingEntrySchema } from '../../../../api/tasting/schema';
+import { tastingEvents, tastingStores } from '../../../../api/tasting/model';
+import { TextBlock } from '../../../../shared/components/TextBlock';
 import {
   Container,
   ErrorList,
@@ -17,11 +19,13 @@ import {
   PreviewImage,
   SubmitButtonWrapper,
 } from './styles';
-import { TextBlock } from '../../../../components/TextBlock';
-import i18n from '../../../../i18n/i18n';
 
 export const TastingForm = () => {
   const { t } = useTranslation();
+
+  const addError = useUnit(tastingStores.$addError);
+  const isSubmitting = useUnit(tastingStores.$isSubmitting);
+  const addTasting = useUnit(tastingEvents.addTasting);
 
   const [date, setDate] = useState<Date>(new Date());
   const [coffeeName, setCoffeeName] = useState('');
@@ -32,7 +36,6 @@ export const TastingForm = () => {
   const [notes, setNotes] = useState('');
   const [photos, setPhotos] = useState<File[]>([]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<string[]>([]); // <- errores de validación
 
   const onPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,9 +58,7 @@ export const TastingForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (isSubmitting) return; // evitar dobles envíos
-    setIsSubmitting(true);
+    if (isSubmitting) return;
 
     const dataToValidate: TastingEntry = {
       date,
@@ -86,25 +87,24 @@ export const TastingForm = () => {
       }
 
       setErrors(validationErrors);
-      setIsSubmitting(false);
+
       return;
     }
 
-    const validData = result.data;
-    console.log('✅ Datos válidos:', validData);
+    console.log('✅ Datos válidos:', result.data);
 
-    try {
-      await addTastingEntry(validData);
-      alert('Entrada guardada con éxito');
-      setErrors([]);
-      clearForm();
-    } catch (error) {
-      console.error('Error guardando entrada:', error);
-      setErrors(['Error guardando entrada, inténtalo de nuevo']);
-    }
-
-    setIsSubmitting(false);
+    setErrors([]);
+    addTasting(result.data);
+    clearForm();
   };
+
+  if (isSubmitting) {
+    return (
+      <Container>
+        <ProgressSpinner style={{ width: '50px', height: '50px' }} />
+      </Container>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -113,7 +113,7 @@ export const TastingForm = () => {
           {t('tastingForm.title')}
         </TextBlock>
 
-        {errors.length > 0 && (
+        {(errors.length > 0 || addError) && (
           <ErrorList>
             <ul>
               {errors.map((err, i) => (
@@ -210,7 +210,7 @@ export const TastingForm = () => {
         <SubmitButtonWrapper>
           <Button
             type="submit"
-            label={t('tastingForm.title')}
+            label={isSubmitting ? 'guardando' : t('tastingForm.title')}
             disabled={isSubmitting}
             onClick={(e) => {
               e.currentTarget.blur();
